@@ -1,1 +1,25 @@
- 
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PipeStat.Form1">
+    <Position X="4.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgBAYAAAECAAAAQAAACAAAAmAAngAEBgAkQAAAAAQAI=</HashCode>
+      <FileName>Form1.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PipeStat.ISOmetric">
+    <Position X="1.25" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAACAA=</HashCode>
+      <FileName>Class1.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="PipeStat.pipeAtt">
+    <Position X="6.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAEAAAAAAAAEAAAAAAAAAAABAQAA=</HashCode>
+      <FileName>pipeAtt.vb</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>

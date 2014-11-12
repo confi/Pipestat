@@ -43,6 +43,7 @@ Partial Class Form1
         '
         'pipeSpec
         '
+        Me.pipeSpec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.pipeSpec.Enabled = False
         Me.pipeSpec.ForeColor = System.Drawing.SystemColors.InactiveCaption
         Me.pipeSpec.FormattingEnabled = True
@@ -51,7 +52,6 @@ Partial Class Form1
         Me.pipeSpec.Size = New System.Drawing.Size(121, 20)
         Me.pipeSpec.TabIndex = 2
         Me.pipeSpec.Tag = ""
-        Me.pipeSpec.Text = "请先选择管道材质"
         '
         'Label1
         '
@@ -89,6 +89,7 @@ Partial Class Form1
         '
         'endPoint1Spec
         '
+        Me.endPoint1Spec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.endPoint1Spec.Enabled = False
         Me.endPoint1Spec.ForeColor = System.Drawing.SystemColors.InactiveCaption
         Me.endPoint1Spec.FormattingEnabled = True
@@ -97,7 +98,6 @@ Partial Class Form1
         Me.endPoint1Spec.Name = "endPoint1Spec"
         Me.endPoint1Spec.Size = New System.Drawing.Size(121, 20)
         Me.endPoint1Spec.TabIndex = 5
-        Me.endPoint1Spec.Text = "请先选择端头种类"
         '
         'BtnOK
         '
@@ -119,7 +119,8 @@ Partial Class Form1
         '
         'pipeMaterial
         '
-        Me.pipeMaterial.ForeColor = System.Drawing.SystemColors.InactiveCaption
+        Me.pipeMaterial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.pipeMaterial.ForeColor = System.Drawing.SystemColors.WindowText
         Me.pipeMaterial.FormattingEnabled = True
         Me.pipeMaterial.ImeMode = System.Windows.Forms.ImeMode.Off
         Me.pipeMaterial.Items.AddRange(New Object() {"SS304", "SS316L", "镀锌碳钢", "PVC", "PP"})
@@ -131,7 +132,8 @@ Partial Class Form1
         '
         'endPoint1Name
         '
-        Me.endPoint1Name.ForeColor = System.Drawing.SystemColors.InactiveCaption
+        Me.endPoint1Name.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.endPoint1Name.ForeColor = System.Drawing.SystemColors.WindowText
         Me.endPoint1Name.FormattingEnabled = True
         Me.endPoint1Name.Items.AddRange(New Object() {"90度弯头", "45度弯头", "等径三通", "外螺纹", "内螺纹", "内牙活接", "对焊活接", "法兰", "管帽", "直通", "变径", "异径三通", "补芯"})
         Me.endPoint1Name.Location = New System.Drawing.Point(87, 131)
@@ -161,6 +163,7 @@ Partial Class Form1
         '
         'endPoint2Name
         '
+        Me.endPoint2Name.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.endPoint2Name.ForeColor = System.Drawing.SystemColors.WindowText
         Me.endPoint2Name.FormattingEnabled = True
         Me.endPoint2Name.Items.AddRange(New Object() {"90度弯头", "45度弯头", "等径三通", "外螺纹", "内螺纹", "内牙活接", "对焊活接", "法兰", "管帽", "直通", "变径", "异径三通", "补芯"})
@@ -181,6 +184,7 @@ Partial Class Form1
         '
         'endPoint2Spec
         '
+        Me.endPoint2Spec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.endPoint2Spec.Enabled = False
         Me.endPoint2Spec.ForeColor = System.Drawing.SystemColors.InactiveCaption
         Me.endPoint2Spec.FormattingEnabled = True
@@ -189,7 +193,6 @@ Partial Class Form1
         Me.endPoint2Spec.Name = "endPoint2Spec"
         Me.endPoint2Spec.Size = New System.Drawing.Size(121, 20)
         Me.endPoint2Spec.TabIndex = 8
-        Me.endPoint2Spec.Text = "请先选择端头种类"
         '
         'Label8
         '
