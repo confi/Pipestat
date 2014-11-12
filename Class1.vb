@@ -26,15 +26,16 @@ Public Class ISOmetric
                     If (ent.GetType.Name = "Line") Then
                         Dim line As Line = CType(ent, Line)
 
-                        '如果直线没有字典则显示输入界面并写入（创建)属性
+                        '如果直线没有字典则创建pipeAtt字典。
                         If line.ExtensionDictionary.IsNull Then
                             Dim inputUI As Form1 = New Form1
                             '显示输入界面
                             inputUI.ShowDialog()
-                            '创建字典
+                            '创建字典和pipeAtt纪录
                             writeAtt(line, inputUI.thisPipe)
                             'TODO:显示直线属性
                         Else
+
                             readModifyAtt(line)
                         End If
                     Else
@@ -76,6 +77,7 @@ Public Class ISOmetric
                     .endPoint1Spec = myXrecord.Data(4).value
                     .endPoint2Name = myXrecord.Data(5).value
                     .endPoint2Spec = myXrecord.Data(6).value
+                    .ID = myXrecord.Data(7).value
                 End With
                 inputUI.display(inputUI.thisPipe)
                 writeAtt(ent, inputUI.thisPipe)
@@ -97,13 +99,16 @@ Public Class ISOmetric
         Dim db As Database = HostApplicationServices.WorkingDatabase
         Dim ed As Editor = Application.DocumentManager.MdiActiveDocument.Editor
         Using trans As Transaction = db.TransactionManager.StartTransaction
-
+            '如果直线没有字典，则创建字典
             If ent.ExtensionDictionary.IsNull Then
                 ent.UpgradeOpen()
                 ent.CreateExtensionDictionary()
             End If
+
             Dim dic As DBDictionary = trans.GetObject(ent.ExtensionDictionary, OpenMode.ForWrite)
+            '创建pipeAtt纪录
             Dim myXrecord As New Xrecord
+            myPipe.ID = ent.Handle.Value
             With myPipe
                 Dim resBuffer As ResultBuffer = New ResultBuffer( _
                     New TypedValue(DxfCode.Text, .material), _
@@ -112,20 +117,24 @@ Public Class ISOmetric
                     New TypedValue(DxfCode.Text, .endPoint1Name), _
                     New TypedValue(DxfCode.Text, .endPoint1Spec), _
                     New TypedValue(DxfCode.Text, .endPoint2Name), _
-                    New TypedValue(DxfCode.Text, .endPoint2Spec))
+                    New TypedValue(DxfCode.Text, .endPoint2Spec), _
+                    New TypedValue(DxfCode.Handle, .ID))
                 myXrecord.Data = resBuffer
                 dic.SetAt("pipeAtt", myXrecord)
             End With
             trans.AddNewlyCreatedDBObject(myXrecord, True)
             trans.Commit()
-            ed.WriteMessage("已经写入管道属性：")
+            ed.WriteMessage(vbCrLf, "已经写入管道属性：")
             For Each value As TypedValue In myXrecord.Data
-                ed.WriteMessage(value.Value.ToString() & ",")
+                If value.Value.ToString <> "" Then
+                    ed.WriteMessage(value.Value.ToString() & ";")
+                End If
             Next
             ed.WriteMessage(vbCrLf)
         End Using
     End Sub
 
+    'TODO:输出图中信息到EXCEL模板中
     <CommandMethod("output")> _
     Sub extractInfo()
        
