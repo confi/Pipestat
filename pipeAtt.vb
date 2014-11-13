@@ -9,16 +9,25 @@
     Dim ID As Long
 
 
-    Public ReadOnly Property items() As String()
+    Public Property items() As String()
         Get
             Dim str As String() = {ID, DN, material, length, endPoint1Name, endPoint1Spec, endPoint2Name, endPoint2Spec}
             Return str
         End Get
-
+        Set(ByVal value As String())
+            ID = value(0)
+            DN = value(1)
+            material = value(2)
+            length = value(3)
+            endPoint1Name = value(4)
+            endPoint1Spec = value(5)
+            endPoint2Name = value(6)
+            endPoint2Spec = value(7)
+        End Set
     End Property
 
 
-    Public Function sortPipe() As String(,)
+    Private Function sortPipe() As String(,)
         Dim data(2, 5) As String
 
         '管子和管件的编号、材质相同，管件的数量和单位相同

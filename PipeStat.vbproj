@@ -53,6 +53,7 @@
       <HintPath>F:\ObjectARX 2010\inc-x64\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -69,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Import Include="Microsoft.Office.Interop.Excel" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />

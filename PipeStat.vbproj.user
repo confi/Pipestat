@@ -2,10 +2,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\AutoCAD 2010\acad.exe</StartProgram>
+    <StartArguments>"E:\Study_Research\001 卓信软件建设\轴测图统计工具\sample.dwg"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\AutoCAD 2010\acad.exe</StartProgram>
+    <StartArguments>"E:\Study_Research\001 卓信软件建设\轴测图统计工具\sample.dwg"</StartArguments>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
