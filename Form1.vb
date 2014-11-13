@@ -103,7 +103,7 @@ Public Class Form1
             
             pipeSpec.Items.Clear()
             pipeSpec.Enabled = True
-            pipeSpec.ForeColor = Drawing.Color.Black
+            pipeSpec.ForeColor = System.Drawing.Color.Black
             Select Case pipeMaterial.SelectedIndex
                 Case Is < 3
                     For i As Integer = 0 To steelPipe.Length - 1
@@ -147,7 +147,7 @@ Public Class Form1
 
         If (endpointName.SelectedIndex >= 0 And pipeSpec.SelectedIndex >= 0) Then
             endpointSpec.Enabled = True
-            endpointSpec.ForeColor = Drawing.Color.Black
+            endpointSpec.ForeColor = System.Drawing.Color.Black
             endpointSpec.Items.Clear()
             endpointSpec.Text = ""
             Select Case endpointName.SelectedIndex
