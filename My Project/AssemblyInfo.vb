@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' 查看程序集属性的值
 
 <Assembly: AssemblyTitle("PipeStat")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("Microsoft")> 
+<Assembly: AssemblyDescription("设置、提取DWG图形中的数据")> 
+<Assembly: AssemblyCompany("AWS")> 
 <Assembly: AssemblyProduct("PipeStat")> 
-<Assembly: AssemblyCopyright("Copyright © Microsoft 2014")> 
+<Assembly: AssemblyCopyright("Copyright © AWS 2014")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

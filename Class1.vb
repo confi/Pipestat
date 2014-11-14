@@ -3,9 +3,42 @@ Imports Autodesk.AutoCAD.EditorInput
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Runtime
 Imports Microsoft.Office.Interop
-
+Imports Autodesk.AutoCAD.Windows
+Imports System
 
 Public Class ISOmetric
+    <CommandMethod("AWSISO")> _
+    Public Sub AddContextMenu()
+
+        Dim ce As New ContextMenuExtension
+        ce.Title = "AWSISO"
+        Dim input As New MenuItem("输入数据(input)")
+        AddHandler input.Click, New EventHandler(AddressOf input_click)
+        Dim output As New MenuItem("输出到EXCEL（output)")
+        AddHandler output.Click, New EventHandler(AddressOf output_click)
+        Dim display As New MenuItem("插入管线说明(display)")
+        AddHandler display.Click, New EventHandler(AddressOf display_click)
+        ce.MenuItems.Add(input)
+        ce.MenuItems.Add(output)
+        ce.MenuItems.Add(display)
+        Autodesk.AutoCAD.ApplicationServices.Application.AddDefaultContextMenuExtension(ce)
+    End Sub
+
+    Sub input_click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim doc As Document = Application.DocumentManager.MdiActiveDocument
+        doc.SendStringToExecute("input ", True, False, True)
+    End Sub
+
+    Sub output_click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim doc As Document = Application.DocumentManager.MdiActiveDocument
+        doc.SendStringToExecute("output ", True, False, True)
+    End Sub
+
+    Sub display_click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim doc As Document = Application.DocumentManager.MdiActiveDocument
+        doc.SendStringToExecute("display ", True, False, True)
+    End Sub
+
 
     <CommandMethod("input")> _
     Public Sub inputInformation()
@@ -32,7 +65,7 @@ Public Class ISOmetric
                             inputUI.ShowDialog()
                             '创建字典和pipeAtt纪录
                             writeAtt(line, inputUI.thisPipe)
-                            'TODO:显示直线属性
+
                         Else
 
                             readModifyAtt(line)
@@ -49,13 +82,15 @@ Public Class ISOmetric
 
     End Sub
 
+
+
     '读取直线字典并作修改
     Sub readModifyAtt(ByVal ent As Line)
         Dim db As Database = Application.DocumentManager.MdiActiveDocument.Database
         Dim ed As Editor = Application.DocumentManager.MdiActiveDocument.Editor
 
         Using trans As Transaction = db.TransactionManager.StartTransaction
-            
+
             Dim dic As DBDictionary = trans.GetObject(ent.ExtensionDictionary, OpenMode.ForRead)
             Dim inputUI As Form1 = New Form1
 
@@ -68,16 +103,12 @@ Public Class ISOmetric
                 myXrecord = trans.GetObject(entryId, OpenMode.ForRead)
 
                 '显示属性
-                With inputUI.thisPipe
-                    .material = myXrecord.Data(0).value
-                    .DN = myXrecord.Data(1).value
-                    .length = myXrecord.Data(2).value
-                    .endPoint1Name = myXrecord.Data(3).value
-                    .endPoint1Spec = myXrecord.Data(4).value
-                    .endPoint2Name = myXrecord.Data(5).value
-                    .endPoint2Spec = myXrecord.Data(6).value
-                    .ID = myXrecord.Data(7).value
-                End With
+                Dim str(7) As String
+                For i As Integer = 0 To 7
+                    str(i) = myXrecord.Data(i).value
+                Next
+                inputUI.thisPipe.items = str
+
                 inputUI.display(inputUI.thisPipe)
                 writeAtt(ent, inputUI.thisPipe)
             Else
@@ -134,10 +165,6 @@ Public Class ISOmetric
     End Sub
 
 
-End Class
-
-Public Class Extract
-
     '定义过滤类型
     Public Enum filterType
         Line = 0
@@ -147,13 +174,24 @@ Public Class Extract
 
 
 
-    'TODO:输出图中信息到EXCEL模板中
+    '输出图中信息到EXCEL模板中
     <CommandMethod("output")> _
-    Sub extractInfo()
+    Public Sub extractInfo()
         Dim certainType() As filterType = {filterType.Line}
         Dim LineCollection As DBObjectCollection = getValidCollection(getSelection(certainType))
         export2Excel(LineCollection)
     End Sub
+
+    '显示所有管道属性
+    <CommandMethod("display")> _
+    Public Sub showInfo()
+        Dim certaintype() As filterType = {filterType.Line}
+        Dim LineCollection As DBObjectCollection = getValidCollection(getSelection(certaintype))
+        For Each l As Line In LineCollection
+            createLabel(l)
+        Next
+    End Sub
+
 
     Function getSelection(ByVal tps As filterType()) As DBObjectCollection
         Dim doc As Document = Application.DocumentManager.MdiActiveDocument
@@ -209,12 +247,14 @@ Public Class Extract
         Return validCollections
     End Function
 
+    '输出信息至EXCEL表格
     Sub export2Excel(ByVal c As DBObjectCollection)
         Dim saveAs As New System.Windows.Forms.SaveFileDialog
         saveAs.Filter = "Excel 工作薄 (*.xlsx)|*.xlsx|All files (*.*)|*.* "
 
         Dim myExcel As New Excel.Application
-        Dim myWorkbook As Excel.Workbook = myExcel.Workbooks.Open("E:\Study_Research\001 卓信软件建设\轴测图统计工具\管道管件表格式.xltx", , False)
+        'TODO:补充找不到模板时的操作。
+        Dim myWorkbook As Excel.Workbook = myExcel.Workbooks.Open("D:\ISO\管道管件表格式.xltx", , False)
         Dim myWorksheet As Excel.Worksheet = myWorkbook.Sheets(1)
         Dim ULCell As Excel.Range
         Dim DRCell As Excel.Range
@@ -241,7 +281,7 @@ Public Class Extract
                 End If
             Next
         Next
-        
+
         myExcel.Visible = True
 
 
@@ -251,7 +291,60 @@ Public Class Extract
 
     End Sub
 
-    '读取图形中的纪录写入inputUI.thisPipe
+    '在有属性的直线旁边显示管道属性
+    Sub createLabel(ByVal l As Line)
+        Dim db As Database = HostApplicationServices.WorkingDatabase
+
+        If l.ExtensionDictionary.IsNull Then
+            MsgBox("选择的直线无管道属性！", MsgBoxStyle.Exclamation)
+            Exit Sub
+        End If
+        Using tr As Transaction = db.TransactionManager.StartTransaction
+            Dim dic As DBDictionary = tr.GetObject(l.ExtensionDictionary, OpenMode.ForRead)
+            Dim myPipe As New pipeAtt
+            If dic.Contains("pipeAtt") Then
+                myPipe = readAtt(l)
+
+            Else
+                MsgBox("选择的直线无管道属性！", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+            '生成管道标签文字
+            Dim str1 As String = "#"
+            For i As Integer = 0 To 5
+                str1 = str1 + myPipe.pipe(i)
+                If i < 4 Then str1 = str1 + ","
+            Next
+            '生成管件标签文字
+            Dim str2 As String = ""
+            For i = 0 To 1
+                If myPipe.endPoint(i, 1) <> "" Then
+                    str2 = str2 & vbCrLf & "#"
+                    For j = 0 To 5
+                        str2 = str2 + myPipe.endPoint(i, j)
+                        If j < 4 Then str2 = str2 + ","
+                    Next
+                End If
+            Next
+
+            '创建MTEXT对象并添加
+            Dim lLabel As New MText
+            lLabel.Location = l.StartPoint
+            lLabel.TextHeight = 350
+            lLabel.Width = 8000
+            lLabel.Rotation = l.Angle
+            lLabel.Contents = str1 & str2
+
+            Dim entId As ObjectId
+            Dim bt As BlockTable = tr.GetObject(db.BlockTableId, OpenMode.ForRead)
+            Dim btr As BlockTableRecord = tr.GetObject(bt(BlockTableRecord.ModelSpace), OpenMode.ForWrite)
+            entId = btr.AppendEntity(lLabel)
+            tr.AddNewlyCreatedDBObject(lLabel, True)
+            tr.Commit()
+        End Using
+    End Sub
+
+    '读取图形中的纪录写入pipeAtt
     Function readAtt(ByVal ent As Line) As pipeAtt
         Dim db As Database = HostApplicationServices.WorkingDatabase
         Dim myPipe As New pipeAtt
