@@ -329,10 +329,19 @@ Public Class ISOmetric
 
             '创建MTEXT对象并添加
             Dim lLabel As New MText
-            lLabel.Location = l.StartPoint
+            Const angleV1 As Double = Math.PI / 2
+            Const angleV2 As Double = 3 * Math.PI / 2
             lLabel.TextHeight = 350
             lLabel.Width = 8000
-            lLabel.Rotation = l.Angle
+            '判断文字方向
+            If l.Angle > angleV1 And l.Angle < angleV2 Then
+                lLabel.Location = l.EndPoint
+                lLabel.Rotation = l.Angle - Math.PI
+            Else
+                lLabel.Location = l.StartPoint
+                lLabel.Rotation = l.Angle
+            End If
+
             lLabel.Contents = str1 & str2
 
             Dim entId As ObjectId

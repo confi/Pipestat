@@ -135,7 +135,7 @@ Partial Class Form1
         Me.endPoint1Name.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.endPoint1Name.ForeColor = System.Drawing.SystemColors.WindowText
         Me.endPoint1Name.FormattingEnabled = True
-        Me.endPoint1Name.Items.AddRange(New Object() {"90度弯头", "45度弯头", "等径三通", "外螺纹", "内螺纹", "内牙活接", "对焊活接", "法兰", "管帽", "直通", "变径", "异径三通", "补芯"})
+        Me.endPoint1Name.Items.AddRange(New Object() {"90度弯头", "45度弯头", "等径三通", "外螺纹", "内螺纹", "内牙活接", "对焊活接", "法兰", "管帽", "直通", "变径", "异径三通", "补芯", " "})
         Me.endPoint1Name.Location = New System.Drawing.Point(87, 131)
         Me.endPoint1Name.Name = "endPoint1Name"
         Me.endPoint1Name.Size = New System.Drawing.Size(121, 20)
@@ -166,7 +166,7 @@ Partial Class Form1
         Me.endPoint2Name.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.endPoint2Name.ForeColor = System.Drawing.SystemColors.WindowText
         Me.endPoint2Name.FormattingEnabled = True
-        Me.endPoint2Name.Items.AddRange(New Object() {"90度弯头", "45度弯头", "等径三通", "外螺纹", "内螺纹", "内牙活接", "对焊活接", "法兰", "管帽", "直通", "变径", "异径三通", "补芯"})
+        Me.endPoint2Name.Items.AddRange(New Object() {"90度弯头", "45度弯头", "等径三通", "外螺纹", "内螺纹", "内牙活接", "对焊活接", "法兰", "管帽", "直通", "变径", "异径三通", "补芯", " "})
         Me.endPoint2Name.Location = New System.Drawing.Point(85, 235)
         Me.endPoint2Name.Name = "endPoint2Name"
         Me.endPoint2Name.Size = New System.Drawing.Size(121, 20)

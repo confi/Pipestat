@@ -155,8 +155,8 @@ Public Class Form1
                     '序号0-9的管件与管道规格一致
                     endpointSpec.Items.Add(pipeSpec.SelectedItem)
                     endpointSpec.SelectedIndex = 0
-                Case Is > 9
-                    '序号大于9的为变径，需要2个规格组合
+                Case 10 To 12
+                    '序号10-13的为变径，需要2个规格组合
                     Dim index As Integer = pipeSpec.SelectedIndex
                     Select Case index
                         '规格组合规则：序号小于4的规格向下2个，向上4个。序号大于4的规格向上向下均为4个规格变化
@@ -197,8 +197,11 @@ Public Class Form1
                                 str = pipeSpec.Items(index)
                                 endpointSpec.Items.Add(pipeSpec.Items(i) & ">" & str.Substring(2))
                             Next
+                        
                     End Select
-
+                Case Is > 12
+                    endpointName.SelectedIndex = -1
+                    endpointSpec.Items.Clear()
             End Select
         Else
             MsgBox("请选择端头种类及管道规格！", MsgBoxStyle.Exclamation)
