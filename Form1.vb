@@ -10,7 +10,7 @@ Public Class Form1
 
 
     'TODO:待数据库正常可用时，删除此处管道规格====================================
-    Private steelPipe() As String = {"DN15", "DN20", "DN32", "DN40", "DN50", "DN65", "DN80", "DN100", "DN125", "DN150", "DN200", "DN250", "DN300", "DN350", "DN400"}
+    Private steelPipe() As String = {"OD10", "DN15", "DN20", "DN25", "DN32", "DN40", "DN50", "DN65", "DN80", "DN100", "DN125", "DN150", "DN200", "DN250", "DN300", "DN350", "DN400"}
     Private PVCPipe() As String = {"De20", "De25", "De32", "De40", "De50", "De63", "De75", "De90", "De110", "De140", "De160", "De225", "De250", "De315"}
     '==============================================================================
 
@@ -153,8 +153,12 @@ Public Class Form1
             Select Case endpointName.SelectedIndex
                 Case 0 To 9
                     '序号0-9的管件与管道规格一致
-                    endpointSpec.Items.Add(pipeSpec.SelectedItem)
-                    endpointSpec.SelectedIndex = 0
+
+                    For i As Integer = 0 To steelPipe.Length - 1
+                        endpointSpec.Items.Add(steelPipe(i))
+                    Next
+                    endpointSpec.SelectedItem = pipeSpec.SelectedItem
+
                 Case 10 To 12
                     '序号10-13的为变径，需要2个规格组合
                     Dim index As Integer = pipeSpec.SelectedIndex
@@ -197,7 +201,7 @@ Public Class Form1
                                 str = pipeSpec.Items(index)
                                 endpointSpec.Items.Add(pipeSpec.Items(i) & ">" & str.Substring(2))
                             Next
-                        
+
                     End Select
                 Case Is > 12
                     endpointName.SelectedIndex = -1
